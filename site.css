@@ -123,3 +123,13 @@ article {
     border-radius: 3px;
     color: #fff;
 }
+
+#imageDisplay {
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+    background-position: center;
+    background-size: cover;
+}

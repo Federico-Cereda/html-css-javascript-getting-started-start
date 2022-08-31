@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css" type="text/css">
+    <title>Bethany's Pie Shop</title>
+    <style>
+        h1 {
+            padding: 10px;
+            font-size: 3em;
+            margin-top: 0.5em;
+        }
+
+        .banner {
+            max-width: 100%;
+        }
+
+        .sub-title {
+            background-color: #fff;
+            font-size: 1.5em;
+            padding: 10px;
+        }
+
+        .input-group {
+            padding: 10px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="pies.html">Pies</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="aggiungere.html">Aggiungere</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <aside><img src="images/logo.png" alt="Bethany's Pie Shop"></aside>
+        <article>
+            <h1>Nuova torta</h1>
+
+            <div class="input-group">
+                <div><label for="title">Nome</label></div>
+                <div><input type="text" name="title" id="title"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="image">Immagine</label></div>
+                <input type="file" id="imageInput" accept="image/png, image/jpg">
+                <div id="imageDisplay"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="price">Prezzo</label></div>
+                <div><input type="number" name="price" id="price"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="desc">Descizione</label></div>
+                <div><input type="text" name="desc" id="desc"></div>
+            </div>
+
+            <div class="input-group">
+                <button data-add="pie">Aggiungere</button>
+            </div>
+
+        </article>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="pies.html">Pies</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="aggiungere.html">Aggiungere</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+<script>
+    const imageInput = document.querySelector("#imageInput");
+    var imageUploaded = "";
+
+    imageInput.addEventListener("change", function(){
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            imageUploaded = reader.result;
+            document.querySelector("#imageDisplay").style.backgroundImage = `url(${imageUploaded})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+    })
+</script>
+</html>

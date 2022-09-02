@@ -14,7 +14,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="aggiungere.html">Aggiungere</a></li>
+                <li><a href="aggiungere.html">Aggiungi torta</a></li>
             </ul>
         </nav>
     </header>
@@ -23,7 +23,7 @@
         <article>
             <section class="columns-desktop">
 
-                <div class="pie">
+                <div class="pie" id="1">
                     <img src="images/apple-pie.png" alt="Apple Pie">
                     <div class="columns">
                         <div class="title">Apple Pie</div>
@@ -31,6 +31,7 @@
                     </div>
                     <p class="desc">Our famous apple pie</p>
                     <button data-order="apple-pie">Order</button>
+                    <button onclick="Delete(parentNode)">Elimina</button>
                 </div>
 
                 <div class="pie">
@@ -41,6 +42,7 @@
                     </div>
                     <p class="desc">A summer classic!</p>
                     <button data-order="cherry-pie">Order</button>
+                    <button onclick="Delete(parentNode)">Elimina</button>
                 </div>
             </section>
         </article>
@@ -51,7 +53,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="aggiungere.html">Aggiungere</a></li>
+                <li><a href="aggiungere.html">Aggiungi torta</a></li>
             </ul>
         </nav>
     </footer>
@@ -82,5 +84,15 @@
 
             });
         });
+
+        function Delete(e)
+        {
+            var x = confirm("Eliminare?");
+            if (x)
+            e.parentNode.removeChild(e);
+            else
+            return false;
+        }
+
     </script>
 </html>

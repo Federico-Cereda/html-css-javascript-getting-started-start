@@ -14,35 +14,39 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="aggiungere.html">Aggiungi torta</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <aside><img src="images/logo.png" alt="Bethany's Pie Shop"></aside>
+        <aside>
+            <img src="images/logo.png" alt="Bethany's Pie Shop">
+            <div><a href="add.html" id="add">Aggiungi torta</a></div>
+        </aside>
         <article>
             <section class="columns-desktop">
 
                 <div class="pie" id="1">
+                    <button onclick="Delete(parentNode)" class="delete">X</button>
                     <img src="images/apple-pie.png" alt="Apple Pie">
                     <div class="columns">
                         <div class="title">Apple Pie</div>
                         <div class="price">$12.95</div>
                     </div>
                     <p class="desc">Our famous apple pie</p>
-                    <button data-order="apple-pie">Order</button>
-                    <button onclick="Delete(parentNode)">Elimina</button>
+                    <button data-order="apple-pie">Ordina</button>
+                    <button data-edit="apple-pie">Modifica</button>
                 </div>
 
                 <div class="pie">
+                    <button onclick="Delete(parentNode)" class="delete">X</button>
                     <img src="images/cherry-pie.png" alt="Cherry Pie">
                     <div class="columns">
                         <div class="title">Cherry Pie</div>
                         <div class="price">$15.95</div>
                     </div>
                     <p class="desc">A summer classic!</p>
-                    <button data-order="cherry-pie">Order</button>
-                    <button onclick="Delete(parentNode)">Elimina</button>
+                    <button data-order="cherry-pie">Ordina</button>
+                    <button data-edit="cherry-pie">Modifica</button>
                 </div>
             </section>
         </article>
@@ -53,7 +57,6 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="aggiungere.html">Aggiungi torta</a></li>
             </ul>
         </nav>
     </footer>
@@ -85,6 +88,32 @@
             });
         });
 
+        window.addEventListener("DOMContentLoaded", function(e) {
+            const editButtons = document.querySelectorAll("button[data-edit]");
+
+            editButtons.forEach(function(button) {
+
+                button.addEventListener("click", function(e) {
+                    const button = e.currentTarget;
+                    const container = button.parentNode;
+
+                    const edit = {
+                        id: button.getAttribute("data-edit"),
+                        title: container.querySelector(".title").innerText,
+                        price: container.querySelector(".price").innerText,
+                        desc: container.querySelector(".desc").innerText
+                    };
+
+                    localStorage.setItem("edit", JSON.stringify(edit));
+
+                    const url = window.location.href.replace("pies.html", "edit.html");
+                    window.location.href = url;
+
+                });
+
+            });
+        });
+
         function Delete(e)
         {
             var x = confirm("Eliminare?");
@@ -93,6 +122,9 @@
             else
             return false;
         }
+
+        
+
 
     </script>
 </html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css" type="text/css">
+    <title>Bethany's Pie Shop</title>
+    <style>
+        h1 {
+            padding: 10px;
+            font-size: 3em;
+            margin-top: 0.5em;
+        }
+
+        .banner {
+            max-width: 100%;
+        }
+
+        .sub-title {
+            background-color: #fff;
+            font-size: 1.5em;
+            padding: 10px;
+        }
+
+        .input-group {
+            padding: 10px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="pies.html">Pies</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <aside>
+            <img src="images/logo.png" alt="Bethany's Pie Shop">
+            <div class="pie">
+                <img src="">
+                <div class="columns">
+                    <div class="title"></div>
+                    <div class="price"></div>
+                </div>
+                <p class="desc"></p>
+            </div>
+        </aside>
+        <article>
+            <h1>Modifica</h1>
+
+            <form action="http://localhost:7071/api/post" method="POST">
+            <input type="hidden" id="pie-edit" name="pie-edit" >
+
+            <div class="input-group">
+                <div><label for="title">Nome</label></div>
+                <div><input type="text" name="title" id="title"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="image">Immagine</label></div>
+                <input type="file" id="imageInput" accept="image/png, image/jpg">
+                <div id="imageDisplay"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="price">Prezzo</label></div>
+                <div><input type="number" step=".01" name="price" id="price"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="desc">Descizione</label></div>
+                <div><input type="text" name="desc" id="desc"></div>
+            </div>
+
+            <div class="input-group">
+                <button data-edit="pie">Modifica</button>
+            </div>
+
+        </form>
+
+        </article>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="pies.html">Pies</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+<script>
+    const imageInput = document.querySelector("#imageInput");
+    var imageUploaded = "";
+    imageInput.addEventListener("change", function(){
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            imageUploaded = reader.result;
+            document.querySelector("#imageDisplay").style.backgroundImage = `url(${imageUploaded})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+    })
+
+
+
+    const buttons = document.querySelector("button");
+    buttons.addEventListener ("click", function(e) {
+        const url = window.location.href.replace("edit.html", "pies.html");
+        window.location.href = url;
+        });
+
+
+
+   window.addEventListener("DOMContentLoaded", function(e) {
+
+        const edit = localStorage.getItem("edit");
+
+        if(edit) {
+        const pieEdit = JSON.parse(edit);
+
+        const pie = document.querySelector(".pie");
+
+        const title = pie.querySelector(".title");
+        const price = pie.querySelector(".price");
+        const desc = pie.querySelector(".desc");
+
+        title.innerText = pieEdit.title;
+        price.innerText = pieEdit.price;
+        desc.innerText = pieEdit.desc;
+
+        const img = pie.querySelector("img");
+        img.setAttribute("src", `images/${pieEdit.id}.png`);
+        img.setAttribute("alt", pieEdit.title);
+
+        document.getElementById("title").value = pieEdit.title;
+        document.getElementById("imageDisplay").style.backgroundImage = `url(${`images/${pieEdit.id}.png`})`;
+        let p = pieEdit.price.replace("$", "");
+        document.getElementById("price").value = p;
+        document.getElementById("desc").value = pieEdit.desc;
+
+        const editInput = document.querySelector("#pie-edit");
+        editInput.value = edit;
+        editInput.price = String($+price);
+        }
+    });
+</script>
+</html>

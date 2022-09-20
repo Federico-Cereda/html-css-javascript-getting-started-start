@@ -37,7 +37,6 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="aggiungere.html">Aggiungi torta</a></li>
             </ul>
         </nav>
     </header>
@@ -45,6 +44,9 @@
         <aside><img src="images/logo.png" alt="Bethany's Pie Shop"></aside>
         <article>
             <h1>Nuova torta</h1>
+
+            <form action="http://localhost:7071/api/post" method="POST">
+            <input type="hidden" id="pie-add" name="pie-add">
 
             <div class="input-group">
                 <div><label for="title">Nome</label></div>
@@ -59,7 +61,7 @@
 
             <div class="input-group">
                 <div><label for="price">Prezzo</label></div>
-                <div><input type="number" name="price" id="price"></div>
+                <div><input type="number" step=".01" name="price" id="price"></div>
             </div>
 
             <div class="input-group">
@@ -71,6 +73,8 @@
                 <button data-add="pie">Aggiungere</button>
             </div>
 
+        </form>
+
         </article>
     </main>
     <footer>
@@ -79,7 +83,6 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="aggiungere.html">Aggiungi torta</a></li>
             </ul>
         </nav>
     </footer>
@@ -87,7 +90,6 @@
 <script>
     const imageInput = document.querySelector("#imageInput");
     var imageUploaded = "";
-
     imageInput.addEventListener("change", function(){
         const reader = new FileReader();
         reader.addEventListener("load", () => {
@@ -97,9 +99,16 @@
         reader.readAsDataURL(this.files[0]);
     })
 
+
+
+    const addInput = document.querySelector("#pie-add");
+    addInput.value = pie;
+
+    
+
     const buttons = document.querySelector("button");
     buttons.addEventListener ("click", function(e) {
-        const url = window.location.href.replace("aggiungere.html", "pies.html");
+        const url = window.location.href.replace("add.html", "pies.html");
         window.location.href = url;
         });
 </script>

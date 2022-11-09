@@ -14,6 +14,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="piesApi.html">PiesApi</a></li>
             </ul>
         </nav>
     </header>
@@ -25,26 +26,7 @@
         <article>
             <section class="columns-desktop">
 
-                
-
-                dt.forEach(ListPie);
-
-                
-                
-
-                
-
-                <div class="pie">
-                    <button onclick="Delete(parentNode)" class="delete">X</button>
-                    <img src="images/apple-pie.png" alt="Apple Pie">
-                    <div class="columns">
-                        <div class="title" id="title"></div>
-                        <div class="price" id="price"></div>
-                    </div>
-                    <p class="desc" id="desc"></p>
-                    <button data-order="apple-pie">Ordina</button>
-                    <button data-edit="apple-pie">Modifica</button>
-                </div>
+                <div id="cards"></div>
 
             </section>
         </article>
@@ -55,12 +37,13 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="pies.html">Pies</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="piesApi.html">PiesApi</a></li>
             </ul>
         </nav>
     </footer>
 </body>
     <script>
-        window.addEventListener("DOMContentLoaded", function(e) {
+        window.addEventListener("DOMContentLoaded", function (e) {
             const orderButtons = document.querySelectorAll("button[data-order]");
 
             orderButtons.forEach(function(button) {
@@ -78,11 +61,10 @@
 
                     localStorage.setItem("order", JSON.stringify(order));
 
-                    const url = window.location.href.replace("pies.html", "order.html");
+                    const url = window.location.href.replace("piesApi.html", "order.html");
                     window.location.href = url;
 
                 });
-
             });
         });
 
@@ -104,11 +86,10 @@
 
                     localStorage.setItem("edit", JSON.stringify(edit));
 
-                    const url = window.location.href.replace("pies.html", "edit.html");
+                    const url = window.location.href.replace("piesApi.html", "edit.html");
                     window.location.href = url;
 
                 });
-
             });
         });
 
@@ -123,33 +104,32 @@
 
         async function GetAll() {
 
-            // const response = await fetch('https://localhost:44353/api/Pie/Get', {
-            //     method: 'GET',
-            //     mode: 'no-cors',
-                
-            //     headers: {'Access-Control-Allow-Origin': '*', "accept": "*/*", "content-type": "application/json; charset=UTF-8"}
-            // });
-            // const data1 = await response.json();
-            // const data2 = data1;
-            // debugger;
-
-            var requestOptions = {
-                method: 'GET',
-                mode: 'no-cors',
-                redirect: 'follow'
-            };
-
-            const data = fetch("https://localhost:44353/api/Pie", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
+            const data =
+            fetch("https://localhost:44353/api/Pie", {method: 'GET', redirect: 'follow'})
+            .then(response => response.json())
+            .then(dataList => {
+                let dataC="";
+                dataList.map(values => {
+                    dataC += `<div class="pie">
+                        <img src="images/apple-pie.png" alt="Apple Pie">
+                        <div class="columns">
+                        <div class="title">${values.Title}</div>
+                        <div class="price">${values.Price} €</div>
+                        </div>
+                        <p class="desc">${values.Desc}</p>
+                    </div>`;
+                    // <button type="button" onclick="Delete(parentNode)" class="delete">X</button>
+                    // <button type="button" data-order="${values.Title}">Ordina</button>
+                    // <button type="button" data-edit="${values.Title}">Modifica</button>
+                });
+                document.getElementById("cards").innerHTML=dataC;
+            })
             .catch(error => console.log('error', error));
+
         }
 
-        const dt = GetAll();
-
-        function ListPie(dt) {
-            console.log(dt);
-        }
+        const dt = 
+        GetAll();
 
     </script>
 </html>

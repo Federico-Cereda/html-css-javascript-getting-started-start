@@ -129,6 +129,10 @@ article {
     padding: 5px;
 }
 
+#cards{
+    display: flex;
+}
+
 #add{
     text-align: center;
     padding: 10px;

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css" type="text/css">
+    <title>Bethany's Pie Shop</title>
+    <style>
+        h1 {
+            padding: 10px;
+            font-size: 3em;
+            margin-top: 0.5em;
+        }
+
+        .banner {
+            max-width: 100%;
+        }
+
+        .sub-title {
+            background-color: #fff;
+            font-size: 1.5em;
+            padding: 10px;
+        }
+
+        .input-group {
+            padding: 10px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="pies.html">Pies</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="piesApi.html">PiesApi</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <aside><img src="images/logo.png" alt="Bethany's Pie Shop"></aside>
+        <article>
+            <h1>Nuova torta</h1>
+
+            <!-- <form id="pieForm" method="POST" action="https://localhost:44353/api/Pie"> -->
+            <form id="pieForm"></form>
+            <input type="hidden" id="pie-add" name="pie-add">
+
+            <div class="input-group">
+                <div><label for="title">Nome</label></div>
+                <div><input type="text" name="title" id="title"></div>
+            </div>
+
+            <!-- <div class="input-group">
+                <div><label for="image">Immagine</label></div>
+                <input type="file" id="imageInput" accept="image/png, image/jpg">
+                <div id="imageDisplay"></div>
+            </div> -->
+
+            <div class="input-group">
+                <div><label for="price">Prezzo</label></div>
+                <div><input type="number" step=".01" name="price" id="price"></div>
+            </div>
+
+            <div class="input-group">
+                <div><label for="desc">Descizione</label></div>
+                <div><input type="text" name="desc" id="desc"></div>
+            </div>
+
+            <div class="input-group">
+                <button data-add="pie">Aggiungere</button>
+            </div>
+
+            </form>
+
+        </article>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="pies.html">Pies</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="piesApi.html">PiesApi</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+<script>
+
+    // const imageInput = document.querySelector("#imageInput");
+    // var imageUploaded = "";
+    // imageInput.addEventListener("change", function(){
+    //     const reader = new FileReader();
+    //     reader.addEventListener("load", () => {
+    //         imageUploaded = reader.result;
+    //         document.querySelector("#imageDisplay").style.backgroundImage = `url(${imageUploaded})`;
+    //     });
+    //     reader.readAsDataURL(this.files[0]);
+    // })
+
+    // const addInput = document.querySelector("#pie-add");
+    // addInput.value = pie;
+
+    const btn = document.querySelector("button");
+    btn.addEventListener ("click", function(e) {
+        const dt = Add();
+    });
+
+    async function Add() {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "application/json");
+
+        var data = JSON.stringify({
+            "Title": document.getElementById("title").value,
+            "Price": document.getElementById("price").value,
+            "Desc": document.getElementById("desc").value
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: data
+        };
+
+        fetch("https://localhost:44353/api/Pie", requestOptions)
+        .then(response => response.json())
+        .then(result => { console.log(result)
+            const url = window.location.href.replace("addApi.html", "piesApi.html");
+            window.location.href = url;
+        })
+        .catch(error => console.log('error', error));
+        
+    };
+
+</script>
+</html>

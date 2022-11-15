@@ -21,7 +21,7 @@
     <main>
         <aside>
             <img src="images/logo.png" alt="Bethany's Pie Shop">
-            <div><a href="add.html" id="add">Aggiungi torta</a></div>
+            <div><a href="addApi.html" id="add">Aggiungi torta (Api)</a></div>
         </aside>
         <article>
             <section class="columns-desktop">
@@ -78,7 +78,8 @@
                     const container = button.parentNode;
 
                     const edit = {
-                        id: button.getAttribute("data-edit"),
+                        // id: button.getAttribute("data-edit"),
+                        id: button.parentNode.id,
                         title: container.querySelector(".title").innerText,
                         price: container.querySelector(".price").innerText,
                         desc: container.querySelector(".desc").innerText
@@ -86,18 +87,41 @@
 
                     localStorage.setItem("edit", JSON.stringify(edit));
 
-                    const url = window.location.href.replace("piesApi.html", "edit.html");
+                    const url = window.location.href.replace("piesApi.html", "editApi.html");
                     window.location.href = url;
 
                 });
             });
         });
 
-        function Delete(e)
-        {
+        function Put(e){
+
+            const button = e.currentTarget;
+            const edit = {
+                id: e.id,
+                title: e.querySelector(".title").innerText,
+                price: e.querySelector(".price").innerText,
+                desc: e.querySelector(".desc").innerText
+            };
+
+            localStorage.setItem("edit", JSON.stringify(edit));
+            
+            const url = window.location.href.replace("piesApi.html", "editApi.html");
+            window.location.href = url;
+
+        }
+
+        async function Delete(e){
             var x = confirm("Eliminare?");
-            if (x)
-            e.parentNode.removeChild(e);
+            if (x) {
+                const idC = e.id;
+                e.parentNode.removeChild(e);
+
+                fetch("https://localhost:44353/api/Pie?Id="+idC, {method: 'DELETE'})
+                .then(response => response.json())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+            }
             else
             return false;
         }
@@ -110,15 +134,16 @@
             .then(dataList => {
                 let dataC="";
                 dataList.map(values => {
-                    dataC += `<div class="pie">
+                    dataC += `<div class="pie" id="${values.Id}">
+                        <button type="button" onclick="Delete(parentNode)" class="delete">X</button>
                         <img src="images/apple-pie.png" alt="Apple Pie">
                         <div class="columns">
                         <div class="title">${values.Title}</div>
                         <div class="price">${values.Price} €</div>
                         </div>
                         <p class="desc">${values.Desc}</p>
+                        <button type="button" onclick="Put(parentNode)" class="put">Modifica</button>
                     </div>`;
-                    // <button type="button" onclick="Delete(parentNode)" class="delete">X</button>
                     // <button type="button" data-order="${values.Title}">Ordina</button>
                     // <button type="button" data-edit="${values.Title}">Modifica</button>
                 });

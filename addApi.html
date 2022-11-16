@@ -46,8 +46,7 @@
         <article>
             <h1>Nuova torta</h1>
 
-            <!-- <form id="pieForm" method="POST" action="https://localhost:44353/api/Pie"> -->
-            <form id="pieForm"></form>
+            <form id="pieForm">
             <input type="hidden" id="pie-add" name="pie-add">
 
             <div class="input-group">
@@ -55,11 +54,11 @@
                 <div><input type="text" name="title" id="title"></div>
             </div>
 
-            <!-- <div class="input-group">
+            <div class="input-group">
                 <div><label for="image">Immagine</label></div>
                 <input type="file" id="imageInput" accept="image/png, image/jpg">
                 <div id="imageDisplay"></div>
-            </div> -->
+            </div>
 
             <div class="input-group">
                 <div><label for="price">Prezzo</label></div>
@@ -92,19 +91,16 @@
 </body>
 <script>
 
-    // const imageInput = document.querySelector("#imageInput");
-    // var imageUploaded = "";
-    // imageInput.addEventListener("change", function(){
-    //     const reader = new FileReader();
-    //     reader.addEventListener("load", () => {
-    //         imageUploaded = reader.result;
-    //         document.querySelector("#imageDisplay").style.backgroundImage = `url(${imageUploaded})`;
-    //     });
-    //     reader.readAsDataURL(this.files[0]);
-    // })
-
-    // const addInput = document.querySelector("#pie-add");
-    // addInput.value = pie;
+    const imageInput = document.querySelector("#imageInput");
+    var imageUploaded = "";
+    imageInput.addEventListener("change", function(){
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            imageUploaded = reader.result;
+            document.querySelector("#imageDisplay").style.backgroundImage = `url(${imageUploaded})`;
+        });
+        reader.readAsDataURL(this.files[0]);
+    })
 
     const btn = document.querySelector("button");
     btn.addEventListener ("click", function(e) {
@@ -114,19 +110,37 @@
     async function Add() {
 
         var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Content-Type", "form-data");
+        // myHeaders.append("Accept", "application/json");
 
-        var data = JSON.stringify({
-            "Title": document.getElementById("title").value,
-            "Price": document.getElementById("price").value,
-            "Desc": document.getElementById("desc").value
-        });
+        // const file = $('.picture')[0].files[0];
+        const file = document.getElementById("imageInput").files[0];
+
+        const dataForm = new FormData();
+        
+        dataForm.append("Title", document.getElementById("title").value);
+        dataForm.append("Price", document.getElementById("price").value);
+        dataForm.append("Desc", document.getElementById("desc").value);
+        dataForm.append("Image", file, file.name);
+
+
+
+
+        // var data = JSON.stringify({
+        //     "Title": document.getElementById("title").value,
+        //     "Price": document.getElementById("price").value,
+        //     "Desc": document.getElementById("desc").value,
+        //     "Image": file
+        // });
+
+        // data.Image = ("Image", file.files[0]);
+
+        // data.append("Image", file, file.name);
 
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            body: data
+            data: dataForm
         };
 
         fetch("https://localhost:44353/api/Pie", requestOptions)

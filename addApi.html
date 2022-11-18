@@ -109,38 +109,17 @@
 
     async function Add() {
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "form-data");
-        // myHeaders.append("Accept", "application/json");
-
-        // const file = $('.picture')[0].files[0];
         const file = document.getElementById("imageInput").files[0];
 
         const dataForm = new FormData();
-        
         dataForm.append("Title", document.getElementById("title").value);
         dataForm.append("Price", document.getElementById("price").value);
         dataForm.append("Desc", document.getElementById("desc").value);
-        dataForm.append("Image", file, file.name);
-
-
-
-
-        // var data = JSON.stringify({
-        //     "Title": document.getElementById("title").value,
-        //     "Price": document.getElementById("price").value,
-        //     "Desc": document.getElementById("desc").value,
-        //     "Image": file
-        // });
-
-        // data.Image = ("Image", file.files[0]);
-
-        // data.append("Image", file, file.name);
+        dataForm.append("Image", file);
 
         var requestOptions = {
             method: 'POST',
-            headers: myHeaders,
-            data: dataForm
+            body: dataForm
         };
 
         fetch("https://localhost:44353/api/Pie", requestOptions)

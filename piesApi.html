@@ -136,7 +136,7 @@
                 dataList.map(values => {
                     dataC += `<div class="pie" id="${values.Id}">
                         <button type="button" onclick="Delete(parentNode)" class="delete">X</button>
-                        <img src="images/apple-pie.png" alt="Apple Pie">
+                        <img src="${values.Image}" alt="Pie Image">
                         <div class="columns">
                         <div class="title">${values.Title}</div>
                         <div class="price">${values.Price} €</div>
@@ -144,8 +144,8 @@
                         <p class="desc">${values.Desc}</p>
                         <button type="button" onclick="Put(parentNode)" class="put">Modifica</button>
                     </div>`;
+                    // <img src="images/apple-pie.png" alt="Apple Pie">
                     // <button type="button" data-order="${values.Title}">Ordina</button>
-                    // <button type="button" data-edit="${values.Title}">Modifica</button>
                 });
                 document.getElementById("cards").innerHTML=dataC;
             })

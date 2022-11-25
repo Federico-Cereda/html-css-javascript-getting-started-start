@@ -65,8 +65,8 @@
             </div>
 
             <div class="input-group">
-                <div><label for="title">Nome</label></div>
-                <div><input type="text" name="title" id="title"></div>
+                <div><label for="titleE">Nome</label></div>
+                <div><input type="text" name="titleE" id="titleE"></div>
             </div>
 
             <div class="input-group">
@@ -76,13 +76,13 @@
             </div>
 
             <div class="input-group">
-                <div><label for="price">Prezzo</label></div>
-                <div><input type="number" step=".01" name="price" id="price"></div>
+                <div><label for="priceE">Prezzo</label></div>
+                <div><input type="number" step=".01" name="priceE" id="priceE"></div>
             </div>
 
             <div class="input-group">
-                <div><label for="desc">Descizione</label></div>
-                <div><input type="text" name="desc" id="desc"></div>
+                <div><label for="descE">Descizione</label></div>
+                <div><input type="text" name="descE" id="descE"></div>
             </div>
 
             <div class="input-group">
@@ -118,29 +118,28 @@
 
     const buttons = document.querySelector("button");
     buttons.addEventListener ("click", function(e) {
-        const dt = Put();
+        const dt = Put(e);
     });
 
-    async function Put(){
+    async function Put(e){
+        e.preventDefault();
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Accept", "application/json");
+        const file = document.getElementById("imageInput").files[0];
 
-        var data = JSON.stringify({
-            "Id":  document.getElementById("id").value,
-            "Title": document.getElementById("title").value,
-            "Price": document.getElementById("price").value,
-            "Desc": document.getElementById("desc").value
-        });
+        const dataForm = new FormData();
+        dataForm.append("Id", document.getElementById("id").value);
+        dataForm.append("Title", document.getElementById("titleE").value);
+        dataForm.append("Price", document.getElementById("priceE").value);
+        dataForm.append("Desc", document.getElementById("descE").value);
+        dataForm.append("Image", file);
 
         var requestOptions = {
             method: 'PUT',
-            headers: myHeaders,
-            body: data
+            body: dataForm
         };
 
-        fetch("https://localhost:44353/api/Pie", requestOptions)
+        fetch("http://piewebapi/api/Pie", requestOptions)
+        // fetch("https://localhost:44353/api/Pie", requestOptions)
         .then(response => response.json())
         .then(result => { console.log(result)
             const url = window.location.href.replace("editApi.html", "piesApi.html");
@@ -153,32 +152,27 @@
    window.addEventListener("DOMContentLoaded", function(e) {
 
         const edit = localStorage.getItem("edit");
-
         if(edit) {
         const pieEdit = JSON.parse(edit);
 
         const pie = document.querySelector(".pie");
-
-        const id = pie.querySelector(".id");
         const title = pie.querySelector(".title");
         const price = pie.querySelector(".price");
         const desc = pie.querySelector(".desc");
+        const img = pie.querySelector("img");
 
         title.innerText = pieEdit.title;
         price.innerText = pieEdit.price;
         desc.innerText = pieEdit.desc;
-
-        // const img = pie.querySelector("img");
-        // img.setAttribute("src", `images/${pieEdit.id}.png`);
-        // img.setAttribute("alt", pieEdit.title);
+        img.setAttribute("src", `${pieEdit.image}`);
 
         document.getElementById("id").value = pieEdit.id;
-        document.getElementById("title").value = pieEdit.title;
-        // document.getElementById("imageDisplay").style.backgroundImage = `url(${`images/${pieEdit.id}.png`})`;
+        document.getElementById("titleE").value = pieEdit.title;
+        document.getElementById("imageDisplay").style.backgroundImage = `url(${pieEdit.image})`;
         let priceR = pieEdit.price.replace("€", "");
         priceR = priceR.replace(" ", "");
-        document.getElementById("price").value = priceR;
-        document.getElementById("desc").value = pieEdit.desc;
+        document.getElementById("priceE").value = priceR;
+        document.getElementById("descE").value = pieEdit.desc;
 
         const editInput = document.querySelector("#pie-edit");
         editInput.value = edit;

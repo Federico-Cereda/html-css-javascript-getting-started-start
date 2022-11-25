@@ -104,10 +104,11 @@
 
     const btn = document.querySelector("button");
     btn.addEventListener ("click", function(e) {
-        const dt = Add();
+        const dt = Add(e);
     });
 
-    async function Add() {
+    async function Add(e) {
+        e.preventDefault();
 
         const file = document.getElementById("imageInput").files[0];
 
@@ -122,7 +123,8 @@
             body: dataForm
         };
 
-        fetch("https://localhost:44353/api/Pie", requestOptions)
+        fetch("http://piewebapi/api/Pie", requestOptions)
+        // fetch("https://localhost:44353/api/Pie", requestOptions)
         .then(response => response.json())
         .then(result => { console.log(result)
             const url = window.location.href.replace("addApi.html", "piesApi.html");

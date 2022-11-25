@@ -68,32 +68,6 @@
             });
         });
 
-        window.addEventListener("DOMContentLoaded", function(e) {
-            const editButtons = document.querySelectorAll("button[data-edit]");
-
-            editButtons.forEach(function(button) {
-
-                button.addEventListener("click", function(e) {
-                    const button = e.currentTarget;
-                    const container = button.parentNode;
-
-                    const edit = {
-                        // id: button.getAttribute("data-edit"),
-                        id: button.parentNode.id,
-                        title: container.querySelector(".title").innerText,
-                        price: container.querySelector(".price").innerText,
-                        desc: container.querySelector(".desc").innerText
-                    };
-
-                    localStorage.setItem("edit", JSON.stringify(edit));
-
-                    const url = window.location.href.replace("piesApi.html", "editApi.html");
-                    window.location.href = url;
-
-                });
-            });
-        });
-
         function Put(e){
 
             const button = e.currentTarget;
@@ -101,11 +75,12 @@
                 id: e.id,
                 title: e.querySelector(".title").innerText,
                 price: e.querySelector(".price").innerText,
-                desc: e.querySelector(".desc").innerText
+                desc: e.querySelector(".desc").innerText,
+                image: e.getElementsByTagName('img')[0].getAttribute('alt')
             };
 
             localStorage.setItem("edit", JSON.stringify(edit));
-            
+
             const url = window.location.href.replace("piesApi.html", "editApi.html");
             window.location.href = url;
 
@@ -117,6 +92,7 @@
                 const idC = e.id;
                 e.parentNode.removeChild(e);
 
+                // fetch("http://piewebapi/api/Pie?Id="+idC, {method: 'DELETE'})
                 fetch("https://localhost:44353/api/Pie?Id="+idC, {method: 'DELETE'})
                 .then(response => response.json())
                 .then(result => console.log(result))
@@ -129,14 +105,14 @@
         async function GetAll() {
 
             const data =
-            fetch("https://localhost:44353/api/Pie", {method: 'GET', redirect: 'follow'})
+            fetch("http://piewebapi/api/Pie", {method: 'GET', redirect: 'follow'})
             .then(response => response.json())
             .then(dataList => {
                 let dataC="";
                 dataList.map(values => {
                     dataC += `<div class="pie" id="${values.Id}">
                         <button type="button" onclick="Delete(parentNode)" class="delete">X</button>
-                        <img src="${values.Image}" alt="Pie Image">
+                        <img src="${values.Image}" alt="${values.Image}">
                         <div class="columns">
                         <div class="title">${values.Title}</div>
                         <div class="price">${values.Price} €</div>
@@ -144,7 +120,6 @@
                         <p class="desc">${values.Desc}</p>
                         <button type="button" onclick="Put(parentNode)" class="put">Modifica</button>
                     </div>`;
-                    // <img src="images/apple-pie.png" alt="Apple Pie">
                     // <button type="button" data-order="${values.Title}">Ordina</button>
                 });
                 document.getElementById("cards").innerHTML=dataC;
@@ -153,8 +128,7 @@
 
         }
 
-        const dt = 
-        GetAll();
+        const dt =  GetAll();
 
     </script>
 </html>

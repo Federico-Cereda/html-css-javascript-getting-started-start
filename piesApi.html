@@ -92,8 +92,8 @@
                 const idC = e.id;
                 e.parentNode.removeChild(e);
 
-                // fetch("http://piewebapi/api/Pie?Id="+idC, {method: 'DELETE'})
-                fetch("https://localhost:44353/api/Pie?Id="+idC, {method: 'DELETE'})
+                fetch("http://piewebapi/api/Pie?Id="+idC, {method: 'DELETE'})
+                // fetch("https://localhost:44353/api/Pie?Id="+idC, {method: 'DELETE'})
                 .then(response => response.json())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
